@@ -290,13 +290,15 @@ if(BUILD_JAVA_WRAPPERS)
     )
   file(WRITE ${VTK_JAVA_MANIFEST} "Class-Path: vtk.jar\n")
   add_custom_command(
+    OUTPUT ${VTK_JAR_PATH}/vtkdicom.jar
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/java/javac_stamp.txt ${JAVA_LIBRARIES}
     COMMAND ${JAVA_ARCHIVE} -cvfm
       "${VTK_JAR_PATH}/vtkdicom.jar"
       ${VTK_JAVA_MANIFEST}
       -C ${CMAKE_CURRENT_BINARY_DIR}/javajar
       vtk
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/java/javac_stamp.txt ${JAVA_LIBRARIES}
-    OUTPUT ${VTK_JAR_PATH}/vtkdicom.jar
+    COMMAND ${JAVA_ARCHIVE} -i
+      "${VTK_JAR_PATH}/vtkdicom.jar"
     COMMENT "Java Archive"
     )
 endif()
